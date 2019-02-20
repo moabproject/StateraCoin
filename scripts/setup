@@ -23,8 +23,8 @@ cd ~/Source/
 # What's in the Source folder? Let's see.
 ls -al
 
-# Clone a copy of the StateraCoin source code
-echo -e "\n\n\n== CLONING StateraCoin in $sourcefolder"
+# Clone a copy of the StanceCoin source code
+echo -e "\n\n\n== CLONING StanceCoin in $sourcefolder"
 
 # By default we always push to the development branch, so if you 
 # want a nightly build, this is your best option. However, if you
@@ -47,7 +47,7 @@ ls -al
 # to use all of your cores to compile this, or if you get errors 
 # about not enough ram/swap, you can remove the -j`nproc` from 
 # the make command.
-echo -e "\n\n\n== BUILDING StateraCoin"
+echo -e "\n\n\n== BUILDING StanceCoin"
 cmake .. && make
 cd src
 ls -al
@@ -57,12 +57,12 @@ ls -al
 # zip file just in case.
 echo -e "\n\n\n== COMPRESSING BINARIES"
 wget https://raw.githubusercontent.com/turtlecoin/turtlecoin/development/LICENSE
-zip turtlecoin-dev-bin-$(date +%F)-linux.zip miner LICENSE zedwallet staterad statera-service
+zip turtlecoin-dev-bin-$(date +%F)-linux.zip miner LICENSE zedwallet stanced stance-service
 
 # Create directories to keep always-up-to-date binaries for 
-# STAT Network files. Ideally, your bashrc has aliases to run
+# STNX Network files. Ideally, your bashrc has aliases to run
 # from this folder, or you can add it to your $PATH.
-mkdir -p ~/.Crypto/{Athena,StateraCoin,Karai}
+mkdir -p ~/.Crypto/{Athena,StanceCoin,Karai}
 mkdir ~/Binaries
 
 # Move the zip we created to the Binaries snapshot folder.
@@ -71,14 +71,14 @@ cd ~/Binaries
 
 # Copy the binaries to the folder we just created for them.
 # Remove the files that are already there just in case.
-rm ~/.Crypto/StateraCoin/miner
-rm ~/.Crypto/StateraCoin/zedwallet
-rm ~/.Crypto/StateraCoin/staterad
-rm ~/.Crypto/StateraCoin/statera-service
-cp miner ~/.Crypto/StateraCoin/miner
-cp zedwallet ~/.Crypto/StateraCoin/zedwallet
-cp staterad ~/.Crypto/StateraCoin/staterad
-cp statera-service ~/.Crypto/StateraCoin/statera-service
+rm ~/.Crypto/StanceCoin/miner
+rm ~/.Crypto/StanceCoin/zedwallet
+rm ~/.Crypto/StanceCoin/stanced
+rm ~/.Crypto/StanceCoin/stance-service
+cp miner ~/.Crypto/StanceCoin/miner
+cp zedwallet ~/.Crypto/StanceCoin/zedwallet
+cp stanced ~/.Crypto/StanceCoin/stanced
+cp stance-service ~/.Crypto/StanceCoin/stance-service
 
 
 

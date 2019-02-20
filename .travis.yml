@@ -134,7 +134,7 @@ script:
 before_deploy:
 - if [[ "${TRAVIS_TAG}" == "" ]]; then export TRAVIS_TAG=${TRAVIS_COMMIT} ; fi
 - cd src
-- TARGETS="staterad miner zedwallet statera-service zedwallet-beta cryptotest wallet-api"
+- TARGETS="stanced miner zedwallet stance-service zedwallet-beta cryptotest wallet-api"
 - ${STRIP} ${TARGETS}
 - rm -rf turtlecoin-${TRAVIS_TAG} 
 - mkdir turtlecoin-${TRAVIS_TAG}

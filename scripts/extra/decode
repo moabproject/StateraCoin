@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# by Ereptor, StateraCoin
+# by Ereptor, StanceCoin
 
 HASH=$1
 

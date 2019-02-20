@@ -1,7 +1,7 @@
 # daemon runs in the background
-# run something like tail /var/log/turtlecoind/current to see the status
+# run something like tail /var/log/stanced/current to see the status
 # be sure to run with volumes, ie:
-# docker run -v $(pwd)/turtlecoind:/var/lib/turtlecoind -v $(pwd)/wallet:/home/turtlecoin --rm -ti turtlecoin:0.2.2
+# docker run -v $(pwd)/stanced:/var/lib/stanced -v $(pwd)/wallet:/home/turtlecoin --rm -ti turtlecoin:0.2.2
 ARG base_image_version=0.10.0
 FROM phusion/baseimage:$base_image_version
 
@@ -33,11 +33,11 @@ RUN apt-get update && \
     cmake -DCMAKE_CXX_FLAGS="-g0 -Os -fPIC -std=gnu++11" .. && \
     make -j$(nproc) && \
     mkdir -p /usr/local/bin && \
-    cp src/staterad /usr/local/bin/staterad && \
+    cp src/stanced /usr/local/bin/stanced && \
     cp src/walletd /usr/local/bin/walletd && \
     cp src/zedwallet /usr/local/bin/zedwallet && \
     cp src/miner /usr/local/bin/miner && \
-    strip /usr/local/bin/staterad && \
+    strip /usr/local/bin/stanced && \
     strip /usr/local/bin/walletd && \
     strip /usr/local/bin/zedwallet && \
     strip /usr/local/bin/miner && \
@@ -56,27 +56,27 @@ RUN apt-get update && \
       libboost-program-options1.58.0 \
       libicu55
 
-# setup the turtlecoind service
-RUN useradd -r -s /usr/sbin/nologin -m -d /var/lib/turtlecoind turtlecoind && \
+# setup the stanced service
+RUN useradd -r -s /usr/sbin/nologin -m -d /var/lib/stanced stanced && \
     useradd -s /bin/bash -m -d /home/turtlecoin turtlecoin && \
-    mkdir -p /etc/services.d/turtlecoind/log && \
-    mkdir -p /var/log/turtlecoind && \
-    echo "#!/usr/bin/execlineb" > /etc/services.d/turtlecoind/run && \
-    echo "fdmove -c 2 1" >> /etc/services.d/turtlecoind/run && \
-    echo "cd /var/lib/turtlecoind" >> /etc/services.d/turtlecoind/run && \
-    echo "export HOME /var/lib/turtlecoind" >> /etc/services.d/turtlecoind/run && \
-    echo "s6-setuidgid turtlecoind /usr/local/bin/staterad" >> /etc/services.d/turtlecoind/run && \
-    chmod +x /etc/services.d/turtlecoind/run && \
-    chown nobody:nogroup /var/log/turtlecoind && \
-    echo "#!/usr/bin/execlineb" > /etc/services.d/turtlecoind/log/run && \
-    echo "s6-setuidgid nobody" >> /etc/services.d/turtlecoind/log/run && \
-    echo "s6-log -bp -- n20 s1000000 /var/log/turtlecoind" >> /etc/services.d/turtlecoind/log/run && \
-    chmod +x /etc/services.d/turtlecoind/log/run && \
-    echo "/var/lib/turtlecoind true turtlecoind 0644 0755" > /etc/fix-attrs.d/turtlecoind-home && \
+    mkdir -p /etc/services.d/stanced/log && \
+    mkdir -p /var/log/stanced && \
+    echo "#!/usr/bin/execlineb" > /etc/services.d/stanced/run && \
+    echo "fdmove -c 2 1" >> /etc/services.d/stanced/run && \
+    echo "cd /var/lib/stanced" >> /etc/services.d/stanced/run && \
+    echo "export HOME /var/lib/stanced" >> /etc/services.d/stanced/run && \
+    echo "s6-setuidgid stanced /usr/local/bin/stanced" >> /etc/services.d/stanced/run && \
+    chmod +x /etc/services.d/stanced/run && \
+    chown nobody:nogroup /var/log/stanced && \
+    echo "#!/usr/bin/execlineb" > /etc/services.d/stanced/log/run && \
+    echo "s6-setuidgid nobody" >> /etc/services.d/stanced/log/run && \
+    echo "s6-log -bp -- n20 s1000000 /var/log/stanced" >> /etc/services.d/stanced/log/run && \
+    chmod +x /etc/services.d/stanced/log/run && \
+    echo "/var/lib/stanced true stanced 0644 0755" > /etc/fix-attrs.d/stanced-home && \
     echo "/home/turtlecoin true turtlecoin 0644 0755" > /etc/fix-attrs.d/turtlecoin-home && \
-    echo "/var/log/turtlecoind true nobody 0644 0755" > /etc/fix-attrs.d/turtlecoind-logs
+    echo "/var/log/stanced true nobody 0644 0755" > /etc/fix-attrs.d/stanced-logs
 
-VOLUME ["/var/lib/turtlecoind", "/home/turtlecoin","/var/log/turtlecoind"]
+VOLUME ["/var/lib/stanced", "/home/turtlecoin","/var/log/stanced"]
 
 ENTRYPOINT ["/init"]
 CMD ["/usr/bin/execlineb", "-P", "-c", "emptyenv cd /home/turtlecoin export HOME /home/turtlecoin s6-setuidgid turtlecoin /bin/bash"]

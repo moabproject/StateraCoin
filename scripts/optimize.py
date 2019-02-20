@@ -1,4 +1,4 @@
-# USAGE: Start statera-service as you usually would
+# USAGE: Start stance-service as you usually would
 # then run `python optimize.py --address $ADDRESS --port $PORT --password $RPCPASS`
 # replacing $ADDRESS, $PORT AND $RPCPASS with your values
 from turtlecoin import Walletd as Wallet
